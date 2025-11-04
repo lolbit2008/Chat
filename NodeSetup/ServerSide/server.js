@@ -9,6 +9,7 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../ClientSide')));
+app.use(express.static(path.join(__dirname, '../ServerSide')));
 
 app.get('/', (req, res) => {
     res.redirect('/Chat.html');

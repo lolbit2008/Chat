@@ -52,11 +52,13 @@ Html, body {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 0.1em;
+    overflow-y: scroll;
     scroll-behavior: scroll;
 }
 .chatText {
     margin-top: 0.1em;
     margin-left: 0.4em;
+    text-align: left;
 }
 #ChatInput {
     color: white;
