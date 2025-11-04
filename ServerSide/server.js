@@ -10,6 +10,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../ClientSide')));
 
+app.get('/', (req, res) => {
+    res.redirect('/Chat.html');
+});
+
 app.get('/api/messages', (req, res) => {
     const filePath = path.join(__dirname, 'Chat.json');
     
