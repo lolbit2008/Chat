@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/Dev.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Dev.html'));
+    res.sendFile(path.join(__dirname, 'DevPanel/Dev.html'));
 });
 
 app.get('/api/messages', (req, res) => {
