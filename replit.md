@@ -1,45 +1,48 @@
-# Node.js Environment Setup
+# My Web Project
 
 ## Overview
-This project is a basic Node.js environment configured and ready for development. It includes all the essential setup needed to start building Node.js applications.
-
-## Project Status
-- **Created:** November 4, 2025
-- **Node.js Version:** v20.19.3 (LTS)
-- **Status:** Environment setup complete and verified
+A basic HTML, CSS, and JavaScript starter template with organized file structure and best practices. This project provides a clean foundation for building web applications using vanilla technologies.
 
 ## Project Structure
 ```
-.
-├── index.js          # Entry point file
-├── package.json      # Project dependencies and scripts
-├── src/              # Source code directory (ready for use)
-├── .gitignore        # Git ignore configuration for Node.js
-└── replit.md         # This documentation file
+/
+├── index.html          # Main HTML file with semantic structure
+├── css/
+│   └── styles.css      # CSS with reset, variables, and utilities
+├── js/
+│   └── script.js       # JavaScript with DOM manipulation and utilities
+├── .gitignore          # Git ignore configuration
+└── replit.md           # Project documentation
 ```
 
-## Configuration
-- **Runtime:** Node.js 20 (LTS)
-- **Package Manager:** npm
-- **Entry Point:** index.js
-- **Start Command:** `npm start`
+## Features
+- HTML5 semantic markup with proper meta tags
+- Responsive CSS with modern layout techniques (Flexbox, Grid)
+- CSS custom properties (variables) for easy theming
+- Vanilla JavaScript with event handling and DOM manipulation
+- Interactive demo components (buttons, counter)
+- Mobile-responsive design
+- Organized file structure
+- **Live reload** - automatic browser refresh on file changes
 
-## Available Scripts
-- `npm start` - Runs the main application (index.js)
-- `npm test` - Placeholder for tests
+## Tech Stack
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+)
+- **Dev Server**: live-server (with real-time reload)
+
+## Getting Started
+The project uses live-server for development with automatic browser reload. Just click Run to start the development server. Any changes to HTML, CSS, or JavaScript files will automatically refresh your browser.
 
 ## Recent Changes
-- **2025-11-04:** Initial Node.js environment setup
-  - Installed Node.js 20 runtime
-  - Initialized package.json
-  - Created basic project structure with src/ folder
-  - Added .gitignore for Node.js projects
-  - Configured workflow to run application
-  - Verified environment is working correctly
+- 2025-10-23: Added live-server for real-time reloading
+- 2025-10-23: Initial project setup with HTML, CSS, and JS files
 
-## Next Steps
-This environment is ready for development. You can:
-- Install dependencies with `npm install <package-name>`
-- Create your application code in the src/ folder
-- Update index.js as your main entry point
-- Add additional npm scripts to package.json as needed
+## User Preferences
+None specified yet.
+
+## Project Architecture
+Simple static website with three-tier file organization:
+- HTML for structure and content
+- CSS for styling and layout
+- JavaScript for interactivity and behavior
+
+No build process or dependencies required - uses vanilla web technologies.
