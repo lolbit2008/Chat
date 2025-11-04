@@ -1,13 +1,13 @@
 const ChatTextTemplate = document.querySelector('#ChatTextTemplate').content;
 const chatBox = document.querySelector('#chatBoxDiv');
 let IdList = [];
+let loadedMessageIds = new Set();
 GetMessages()
 
 function GetMessages() {
     fetch("/api/messages")
     .then(Response => Response.json())
     .then(data => {
-        chatBox.innerHTML = ""
         loadMessages(data)
     })
     .catch(error => console.error("Error loading messages:", error));
@@ -15,7 +15,11 @@ function GetMessages() {
 
 function loadMessages(jsonData) {
     for(let i = 0; i < jsonData.length; i++) {
-        inputChat(jsonData[i].Message, jsonData[i].User)
+        const msgId = jsonData[i].MessageId;
+        if (!loadedMessageIds.has(msgId)) {
+            inputChat(jsonData[i].Message, jsonData[i].User)
+            loadedMessageIds.add(msgId);
+        }
     }
 }
 
