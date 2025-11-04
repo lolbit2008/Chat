@@ -1,0 +1,31 @@
+Html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background: #161c3c;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+
+}
+* {
+    user-select: none;
+}
+input:focus {
+  outline: none;
+}
+#back {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #ffffff;
+    text-decoration: none;
+}
+#back:hover {
+    text-decoration: underline;
+}
