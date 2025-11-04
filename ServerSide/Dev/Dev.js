@@ -1,4 +1,4 @@
-import {inputChat, ParseJson, assainId} from "DevInternal.js";
+import {inputChat, ParseJson, assainId} from "./DevInternal.js";
 const SignIn = document.querySelector("#SignIn");
 const SignInDiv = document.querySelector('#SignInDiv');
 const chatBoxDiv = document.querySelector('#chatBoxDiv');
@@ -17,6 +17,19 @@ if (localStorage.getItem("Username") && localStorage.getItem("userID")) {
     localStorage.setItem("userID", assainId())
 } else {
     SignInDiv.style.display = "flex"
+}
+
+// Load saved colors on page load
+const root = document.documentElement;
+if (localStorage.getItem("backgroundColor")) {
+    const savedBgColor = localStorage.getItem("backgroundColor");
+    root.style.setProperty("--primary-color", savedBgColor);
+    BackgroundColor.value = savedBgColor;
+}
+if (localStorage.getItem("outlineColor")) {
+    const savedOutlineColor = localStorage.getItem("outlineColor");
+    root.style.setProperty("--border-color", savedOutlineColor);
+    OutlineColor.value = savedOutlineColor;
 }
 
 chatInput.addEventListener("keydown", (e)=> {
@@ -53,10 +66,12 @@ Menu.addEventListener("click", ()=> {
 BackgroundColor.addEventListener("change", ()=> {
     const root = document.documentElement
     root.style.setProperty("--primary-color", BackgroundColor.value);
+    localStorage.setItem("backgroundColor", BackgroundColor.value);
 })
 OutlineColor.addEventListener("change", ()=> {
     const root = document.documentElement
     root.style.setProperty("--border-color", OutlineColor.value);
+    localStorage.setItem("outlineColor", OutlineColor.value);
 })
 
 function scrollDown() {
