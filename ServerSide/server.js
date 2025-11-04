@@ -8,10 +8,10 @@ const PORT = 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '../ClientSide')));
 
 app.get('/api/messages', (req, res) => {
-    const filePath = path.join(__dirname, 'Chat', 'Chat.json');
+    const filePath = path.join(__dirname, 'Chat.json');
     
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
@@ -31,7 +31,7 @@ app.get('/api/messages', (req, res) => {
 
 app.post('/api/messages', (req, res) => {
     const newMessage = req.body;
-    const filePath = path.join(__dirname, 'Chat', 'Chat.json');
+    const filePath = path.join(__dirname, 'Chat.json');
     
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {

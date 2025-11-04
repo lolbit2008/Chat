@@ -1,48 +1,65 @@
-# My Web Project
+# Chat Application
 
 ## Overview
-A basic HTML, CSS, and JavaScript starter template with organized file structure and best practices. This project provides a clean foundation for building web applications using vanilla technologies.
+This is a real-time chat application built with Node.js and Express. It features a backend server that handles message storage and retrieval, with a clean client-side interface.
+
+## Project Status
+- **Created:** November 4, 2025
+- **Node.js Version:** v20.19.3 (LTS)
+- **Status:** Running and operational
+- **Server:** Running on http://0.0.0.0:5000
 
 ## Project Structure
 ```
 /
-├── index.html          # Main HTML file with semantic structure
-├── css/
-│   └── styles.css      # CSS with reset, variables, and utilities
-├── js/
-│   └── script.js       # JavaScript with DOM manipulation and utilities
-├── .gitignore          # Git ignore configuration
-└── replit.md           # Project documentation
+├── ClientSide/
+│   ├── Chat.html        # Main chat interface
+│   ├── Chat.css         # Chat-specific styles
+│   ├── Chat.js          # Client-side chat logic
+│   └── Universal.css    # Shared styles
+├── ServerSide/
+│   ├── server.js        # Express server with API endpoints
+│   ├── Chat.json        # Message storage
+│   └── ChatInternal.js  # Internal chat logic
+├── package.json         # Project dependencies and scripts
+├── .gitignore           # Git ignore configuration
+└── replit.md            # This documentation file
 ```
 
-## Features
-- HTML5 semantic markup with proper meta tags
-- Responsive CSS with modern layout techniques (Flexbox, Grid)
-- CSS custom properties (variables) for easy theming
-- Vanilla JavaScript with event handling and DOM manipulation
-- Interactive demo components (buttons, counter)
-- Mobile-responsive design
-- Organized file structure
-- **Live reload** - automatic browser refresh on file changes
+## Configuration
+- **Runtime:** Node.js 20 (LTS)
+- **Framework:** Express 5.1.0
+- **Port:** 5000 (bound to 0.0.0.0 for external access)
+- **Entry Point:** ServerSide/server.js
 
-## Tech Stack
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+)
-- **Dev Server**: live-server (with real-time reload)
+## Dependencies
+- **express** (5.1.0) - Web server framework
+- **cors** (2.8.5) - Cross-origin resource sharing
+- **live-server** (1.2.2) - Development server
 
-## Getting Started
-The project uses live-server for development with automatic browser reload. Just click Run to start the development server. Any changes to HTML, CSS, or JavaScript files will automatically refresh your browser.
+## Available Scripts
+- `npm start` - Starts the chat server on port 5000
+- `npm test` - Placeholder for tests
+
+## API Endpoints
+- `GET /api/messages` - Retrieves all chat messages from Chat.json
+- `POST /api/messages` - Saves a new chat message to Chat.json
 
 ## Recent Changes
-- 2025-10-23: Added live-server for real-time reloading
-- 2025-10-23: Initial project setup with HTML, CSS, and JS files
+- **2025-11-04:** Chat application fixes
+  - Fixed missing "start" script in package.json
+  - Fixed file path references in server.js (Chat.json location)
+  - Fixed static file serving to point to ClientSide folder
+  - Installed all required dependencies (express, cors, live-server)
+  - Configured workflow for web preview on port 5000
+  - Server is running successfully
 
 ## User Preferences
 None specified yet.
 
 ## Project Architecture
-Simple static website with three-tier file organization:
-- HTML for structure and content
-- CSS for styling and layout
-- JavaScript for interactivity and behavior
-
-No build process or dependencies required - uses vanilla web technologies.
+Full-stack chat application with:
+- **Backend**: Express.js REST API handling message CRUD operations
+- **Frontend**: Vanilla JavaScript SPA for chat interface
+- **Storage**: File-based JSON storage (Chat.json)
+- **Server Config**: Bound to 0.0.0.0:5000 for external accessibility
