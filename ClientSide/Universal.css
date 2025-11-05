@@ -18,14 +18,3 @@ Html, body {
 input:focus {
   outline: none;
 }
-#back {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 20px;
-    color: #ffffff;
-    text-decoration: none;
-}
-#back:hover {
-    text-decoration: underline;
-}

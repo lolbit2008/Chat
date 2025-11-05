@@ -75,15 +75,17 @@ OutlineColor.addEventListener("change", ()=> {
 })
 
 function scrollDown() {
+    if (Math.abs(chatBoxDiv.scrollHeight - chatBoxDiv.clientHeight - chatBoxDiv.scrollTop) <= 1) {
     chatBoxDiv.scrollTop = chatBoxDiv.scrollHeight - chatBoxDiv.clientHeight;
-} setInterval(scrollDown, 1000)
+  }
+}
+
+setInterval(scrollDown, 1000);
 
 function ChatCommands() {
     switch (chatInput.value) {
             case "/Change":
-                localStorage.removeItem("Username")
-                SignInDiv.style.display = "flex"
-                chatInput.value = "";
+                chatInput.value = "User's can not use this command";
                 break;
             case "/Background":
                 chatInput.value = "";

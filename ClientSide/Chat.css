@@ -17,21 +17,22 @@ div {
     border-radius: 0.3em;
 }
 Html, body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
     margin: 0;
     padding: 0;
     background: var(--primary-color);
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 #MainDiv {
+    max-width: calc(100vh * 9/15);
     position: relative;
-    height: 100%;
     aspect-ratio: 9/15;
     justify-content: flex-start;
-}
-#back {
-    position: absolute;
-    left: 0.69em;
-    z-index: 1000;
 }
 #Menu {
     font-size: 3.5em;
@@ -39,7 +40,7 @@ Html, body {
     top: -0.34em;
     right: 0.15em;
     cursor: pointer;
-    z-index: 1001
+    z-index: 1001;
 }
 #chatBoxDiv {
     font-size: 1.25em;
@@ -54,6 +55,10 @@ Html, body {
     gap: 0.1em;
     overflow-y: scroll;
     scroll-behavior: scroll;
+    overflow-wrap: break-word;
+}
+#chatBoxDiv::-webkit-scrollbar {
+    display: none;
 }
 .chatText {
     margin-top: 0.1em;
