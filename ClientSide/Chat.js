@@ -1,5 +1,5 @@
-import { inputChat, ParseJson } from './ChatInternal.js';
-export {scrollDown}
+import {ParseJson} from './ChatInternal.js';
+export {scrollDown};
 
 const SignIn = document.querySelector('#SignIn');
 const SignInDiv = document.querySelector('#SignInDiv');
@@ -20,9 +20,7 @@ function saveUserData() {
     }
 }
 
-
 function loadUserData() {
-    
     if (localStorage.getItem('Username')) {
         localStorage.clear();
     } 
@@ -30,7 +28,8 @@ function loadUserData() {
     const savedData = localStorage.getItem('Userdata');
     if (savedData) {
         UserData = JSON.parse(savedData);
-        
+
+
         if (UserData.Pref && UserData.Pref.length === 2) {
             root.style.setProperty('--primary-color', UserData.Pref[0]);
             root.style.setProperty('--border-color', UserData.Pref[1]);
@@ -43,21 +42,17 @@ function loadUserData() {
             SignInDiv.style.display = 'none';
         }
     } else {
-        
         if (SignInDiv) {
             SignInDiv.style.display = 'flex';
         }
     }
 }
 
-
 function scrollDown() {
    chatBoxDiv.scrollTop = chatBoxDiv.scrollHeight - chatBoxDiv.clientHeight;
-
 }
 
-
-function ChatCommands(InValue) {
+async function ChatCommands(InValue) {
     
     const username = UserData ? UserData.Username : 'guest'; 
 
@@ -66,16 +61,13 @@ function ChatCommands(InValue) {
             chatInput.value = "Users can not use this command";
             break;
         default:
-            
-            inputChat(InValue, username);
-            ParseJson(InValue, username);
+
+            await ParseJson(InValue, username); 
     }
 }
 
-
 loadUserData();
 setInterval(scrollDown, 1000);
-
 
 chatInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && chatInput.value.trim()) {
@@ -84,7 +76,6 @@ chatInput.addEventListener('keydown', (e) => {
     }
 });
 
-
 SignIn.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         const user = SignIn.value.trim();
@@ -92,8 +83,7 @@ SignIn.addEventListener('keydown', (e) => {
             SignInDiv.style.display = 'none';
             UserData = {
                 Username: user,
-                UserId: 0,
-                
+                UserId: null, 
                 Pref: [BackgroundColor.value, OutlineColor.value] 
             };
             saveUserData();
@@ -103,7 +93,6 @@ SignIn.addEventListener('keydown', (e) => {
     }
 });
 
-
 chatBoxDiv.addEventListener('click', () => {
     chatInput.focus();
 });
@@ -112,7 +101,6 @@ Menu.addEventListener('click', () => {
     
     MenuDiv.style.display = (MenuDiv.style.display === 'flex') ? 'none' : 'flex';
 });
-
 
 BackgroundColor.addEventListener('change', () => {
     root.style.setProperty('--primary-color', BackgroundColor.value);

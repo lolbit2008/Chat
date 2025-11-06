@@ -1,7 +1,9 @@
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 const PORT = 5000;
@@ -13,6 +15,11 @@ app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
     res.redirect('/Chat.html');
+});
+
+app.get('/api/get-user-id', (req, res) => {
+    const userId = uuidv4(); 
+    res.json({ id: userId });
 });
 
 

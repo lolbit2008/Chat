@@ -1,35 +1,72 @@
-import {scrollDown} from './Chat.js'
+import {scrollDown} from './Chat.js'; 
 const ChatTextTemplate = document.querySelector('#ChatTextTemplate').content;
 const chatBox = document.querySelector('#chatBoxDiv');
-GetMessages()
+
+let currentUserId = null; 
+
+function waitForUserId() {
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+            if (currentUserId) {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 50);
+
+    });
+}
+
+async function initializeChat() {
+    const savedData = localStorage.getItem('Userdata');
+    if (savedData) {
+        const userData = JSON.parse(savedData);
+        if (userData.UserId) {
+            currentUserId = userData.UserId;
+        }
+    }
+    
+    if (!currentUserId) {
+       await GetId(); 
+    }
+    
+    GetMessages();
+}
+
+initializeChat();
 
 function GetMessages() {
     fetch("/api/messages")
     .then(Response => Response.json())
     .then(data => {
         chatBox.innerHTML = ''; 
-        loadMessages(data)
+        loadMessages(data);
     })
     .catch(error => console.error("Error loading messages:", error));
 }
 
 function loadMessages(jsonData) {
     for(let i = 0; i < jsonData.length; i++) {
-            inputChat(jsonData[i].Message, jsonData[i].User)
+            inputChat(jsonData[i].Message, jsonData[i].User, jsonData[i].userID || currentUserId); 
         }
     }
 
-function inputChat(value, user) {
+function inputChat(value, user, id) {
     let chatText = ChatTextTemplate.cloneNode(true);
-    let chatTextEl = chatText.querySelector('.chatText')
-    chatTextEl.textContent = `${value} - ${user}`;
+    let chatTextEl = chatText.querySelector('.chatText');
+    chatTextEl.textContent = `${value} - ${user}`; 
     chatBox.appendChild(chatText); 
 }
 
-function ParseJson(value, User) {
+async function ParseJson(value, User) { 
+    if (!currentUserId) {
+        console.log("User ID not available yet, waiting...");
+        await waitForUserId();
+    }
+    
+    inputChat(value, User, currentUserId);
     let jsonData = {
         "User": User,
-        "userID": 0,
+        "userID": currentUserId,
         "MessageId": 0,
         "Message": value
     }
@@ -44,13 +81,34 @@ fetch("/api/messages", {
     .then(response => response.json())
     .then(data => {
         console.log('Message saved successfully:', data);
-        scrollDown()
+        scrollDown();
     })
     .catch(error => {
         console.error('Error saving message:', error);
     });
 }
 
+async function GetId() {
+    try {
+        const response = await fetch("/api/get-user-id"); 
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        currentUserId = data.id; 
+        console.log('Received User ID:', currentUserId);
+        const savedData = localStorage.getItem('Userdata');
+        if (savedData) {
+            const userData = JSON.parse(savedData);
+            userData.UserId = currentUserId;
+            localStorage.setItem('Userdata', JSON.stringify(userData));
+        }
+
+    } catch (error) {
+        console.error("Error getting user ID:", error);
+    }
+}
+
 
 setInterval(GetMessages, 1000)
-export {inputChat, ParseJson};
+export {inputChat, ParseJson, GetId};
