@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
     <title>Chat</title>
-    <link rel="stylesheet" href="Universal.css">
     <link rel="stylesheet" href="Chat.css">
 </head>
 <body>
     <div id="MainDiv">
         <p id="Menu">≡</p>
         <div id="chatBoxDiv"></div>
-        <input type="text" id="ChatInput" placeholder="Input Here">
+        <input type="text" id="ChatInput" placeholder="Input Here" maxlength="50">
         <div id="SignInDiv">
             <h1 id="TextEl">Please Type in a Username:</h1>
-            <input id="SignIn">
+            <input id="SignIn" maxlength="50">
         </div>
     </div>
     <div id="MenuDiv">
@@ -20,7 +19,7 @@
             <p>Background color: </p><input type="color" id="BackgroundColor">
         </div>
         <div id="OutlineColorDiv">
-            <p>Outline color: </p><input type="color" id="OutlineColor">
+            <p>Outline color: </p><input type="color" id="OutlineColor" value="#FFFFFF">
         </div>
     </div>
     <template id="ChatTextTemplate">

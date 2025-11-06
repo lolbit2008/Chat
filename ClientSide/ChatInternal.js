@@ -1,3 +1,4 @@
+import {scrollDown} from './Chat.js'
 const ChatTextTemplate = document.querySelector('#ChatTextTemplate').content;
 const chatBox = document.querySelector('#chatBoxDiv');
 GetMessages()
@@ -22,7 +23,7 @@ function inputChat(value, user) {
     let chatText = ChatTextTemplate.cloneNode(true);
     let chatTextEl = chatText.querySelector('.chatText')
     chatTextEl.textContent = `${value} - ${user}`;
-    chatBox.appendChild(chatText);
+    chatBox.appendChild(chatText); 
 }
 
 function ParseJson(value, User) {
@@ -43,15 +44,13 @@ fetch("/api/messages", {
     .then(response => response.json())
     .then(data => {
         console.log('Message saved successfully:', data);
+        scrollDown()
     })
     .catch(error => {
         console.error('Error saving message:', error);
     });
 }
 
-function assainId() {
-    return IdList.push(IdList.length)
-}
 
 setInterval(GetMessages, 1000)
-export {inputChat, ParseJson, assainId};
+export {inputChat, ParseJson};

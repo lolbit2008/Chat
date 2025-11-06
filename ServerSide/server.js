@@ -15,9 +15,6 @@ app.get('/', (req, res) => {
     res.redirect('/Chat.html');
 });
 
-app.get('/Dev.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Dev/Dev.html'));
-});
 
 app.get('/api/messages', (req, res) => {
     const filePath = path.join(__dirname, 'Chat.json');
