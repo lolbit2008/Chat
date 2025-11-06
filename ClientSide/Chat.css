@@ -8,6 +8,7 @@
     padding: 0;
     box-sizing: border-box; 
     text-align: center;
+    user-select: none;
 }
 
 
@@ -42,7 +43,6 @@ input {
 
 
 #MainDiv {
-   
     max-width: min(100vw, calc(100vh * 9 / 15));
     height: 100%;
     position: relative;
@@ -91,6 +91,7 @@ input {
 }
 
 .chatText {
+    user-select: text;
     margin-top: 0.1em;
     margin-left: 0.4em;
     text-align: left;
@@ -121,11 +122,11 @@ input {
     display: none; 
     position: absolute;
     top: 0;
-    left: 0;
+    left: 50% - 50%;
     height: 100%;
-    width: 100%;
+    aspect-ratio: 9 / 15;
     background: var(--primary-color);
-    border: none;
+    border: 1px solid var(--border-color);
     z-index: 1000;
     gap: 1.5em;
 }
