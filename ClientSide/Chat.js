@@ -53,28 +53,42 @@ function scrollDown() {
 }
 
 async function ChatCommands(InValue) {
-    
-    const username = UserData ? UserData.Username : 'guest'; 
+    const username = UserData ? UserData.Username : 'guest';
+    let responseMessage = InValue;
 
     switch (InValue) {
-        case '/Change': 
-            chatInput.value = "Users can not use this command";
+        case '/Change':
+            responseMessage = "Users can not use this command";
             break;
+        case "/Break":
+            if (UserData && UserData.userID === "5490765b-fdc9-4780-bb1d-6a97fa3771b0") {
+                responseMessage = "this is a test";
+                break;
+            } else {
+                responseMessage = "You do not have permission to use this command";
+                break;
+            }
         default:
-
-            await ParseJson(InValue, username); 
+            await ParseJson(InValue, username);
+            return null;
     }
+    return responseMessage;
 }
+
 
 loadUserData();
 setInterval(scrollDown, 1000);
 
-chatInput.addEventListener('keydown', (e) => {
+chatInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter' && chatInput.value.trim()) {
-        ChatCommands(chatInput.value.trim());
-        chatInput.value = ''; 
+        const commandResult = await ChatCommands(chatInput.value.trim());
+        if (commandResult) {
+            await ParseJson(commandResult, 'System');
+        }
+        chatInput.value = '';
     }
 });
+
 
 SignIn.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {

@@ -50,7 +50,7 @@ function loadMessages(jsonData) {
         }
     }
 
-function inputChat(value, user, id) {
+function inputChat(value, user) {
     let chatText = ChatTextTemplate.cloneNode(true);
     let chatTextEl = chatText.querySelector('.chatText');
     chatTextEl.textContent = `${value} - ${user}`; 
