@@ -1,4 +1,4 @@
-import {ParseJson} from './ChatInternal.js';
+import {ParseJson, inputChat} from './ChatInternal.js';
 export {scrollDown};
 
 const SignIn = document.querySelector('#SignIn');
@@ -83,9 +83,10 @@ chatInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter' && chatInput.value.trim()) {
         const commandResult = await ChatCommands(chatInput.value.trim());
         if (commandResult) {
-            await ParseJson(commandResult, 'System');
+            chatInput.value = commandResult;
+        } else {
+            chatInput.value = '';
         }
-        chatInput.value = '';
     }
 });
 
