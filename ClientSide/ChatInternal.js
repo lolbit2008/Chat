@@ -2,17 +2,18 @@ import {scrollDown} from './Chat.js';
 const ChatTextTemplate = document.querySelector('#ChatTextTemplate').content;
 const chatBox = document.querySelector('#chatBoxDiv');
 
+const API_URL = "https://chat-1b0a.onrender.com";
+
 let currentUserId = null; 
 
 function waitForUserId() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         const interval = setInterval(() => {
             if (currentUserId) {
                 clearInterval(interval);
                 resolve();
             }
         }, 50);
-
     });
 }
 
@@ -24,18 +25,18 @@ async function initializeChat() {
             currentUserId = userData.UserId;
         }
     }
-    
+
     if (!currentUserId) {
-       await GetId(); 
+        await GetId(); 
     }
-    
+
     GetMessages();
 }
 
 initializeChat();
 
 function GetMessages() {
-    fetch("/api/messages")
+    fetch(`${API_URL}/api/messages`)
     .then(Response => Response.json())
     .then(data => {
         chatBox.innerHTML = ''; 
@@ -45,10 +46,10 @@ function GetMessages() {
 }
 
 function loadMessages(jsonData) {
-    for(let i = 0; i < jsonData.length; i++) {
-            inputChat(jsonData[i].Message, jsonData[i].User, jsonData[i].userID || currentUserId); 
-        }
+    for (let i = 0; i < jsonData.length; i++) {
+        inputChat(jsonData[i].Message, jsonData[i].User);
     }
+}
 
 function inputChat(value, user) {
     let chatText = ChatTextTemplate.cloneNode(true);
@@ -62,41 +63,37 @@ async function ParseJson(value, User) {
         console.log("User ID not available yet, waiting...");
         await waitForUserId();
     }
-    
-    inputChat(value, User, currentUserId);
+
+    inputChat(value, User);
+
     let jsonData = {
         "User": User,
         "userID": currentUserId,
-        "MessageId": 0,
         "Message": value
     }
-    
-fetch("/api/messages", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(jsonData)
-})
+
+    fetch(`${API_URL}/api/messages`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(jsonData)
+    })
     .then(response => response.json())
     .then(data => {
         console.log('Message saved successfully:', data);
         scrollDown();
     })
-    .catch(error => {
-        console.error('Error saving message:', error);
-    });
+    .catch(error => console.error('Error saving message:', error));
 }
 
 async function GetId() {
     try {
-        const response = await fetch("/api/get-user-id"); 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        const response = await fetch(`${API_URL}/api/get-user-id`);
         const data = await response.json();
         currentUserId = data.id; 
         console.log('Received User ID:', currentUserId);
+
         const savedData = localStorage.getItem('Userdata');
         if (savedData) {
             const userData = JSON.parse(savedData);
