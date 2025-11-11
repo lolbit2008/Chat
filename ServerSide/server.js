@@ -1,82 +1,65 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const { v4: uuidv4 } = require("uuid");
+const mongoose = require('mongoose');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../ClientSide')));
-app.use(express.static(path.join(__dirname)));
 
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch(err => console.error("❌ MongoDB connection error:", err));
+
+// ✅ Define Message Schema
+const messageSchema = new mongoose.Schema({
+    User: String,
+    userID: String,
+    MessageId: Number,
+    Message: String
+});
+
+const Message = mongoose.model("Message", messageSchema);
+
+// ✅ Routes
 app.get('/', (req, res) => {
-    res.redirect('/Chat.html');
+    res.send("Chat server is running");
 });
 
-app.get('/api/get-user-id', (req, res) => {
-    const userId = uuidv4(); 
-    res.json({ id: userId });
+// ✅ Fetch all messages
+app.get('/api/messages', async (req, res) => {
+    try {
+        const messages = await Message.find().sort({ MessageId: 1 });
+        res.json(messages);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to read messages' });
+    }
 });
 
+// ✅ Save a new message
+app.post('/api/messages', async (req, res) => {
+    try {
+        const count = await Message.countDocuments();
+        const newMessage = {
+            ...req.body,
+            MessageId: count
+        };
 
-app.get('/api/messages', (req, res) => {
-    const filePath = path.join(__dirname, 'Chat.json');
-    
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading Chat.json:', err);
-            return res.status(500).json({ error: 'Failed to read messages' });
-        }
-        
-        try {
-            const messages = JSON.parse(data);
-            res.json(messages);
-        } catch (parseErr) {
-            console.error('Error parsing JSON:', parseErr);
-            res.status(500).json({ error: 'Invalid JSON data' });
-        }
-    });
+        const savedMessage = await Message.create(newMessage);
+        res.json({ success: true, message: savedMessage });
+
+    } catch (err) {
+        console.error("DB Write Error:", err);
+        res.status(500).json({ error: 'Failed to save message' });
+    }
 });
 
-app.post('/api/messages', (req, res) => {
-    const newMessage = req.body;
-    const filePath = path.join(__dirname, 'Chat.json');
-    
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading Chat.json:', err);
-            return res.status(500).json({ error: 'Failed to read messages' });
-        }
-        
-        try {
-            let messages = JSON.parse(data);
-            
-            newMessage.MessageId = messages.length > 0 
-                ? Math.max(...messages.map(m => m.MessageId)) + 1 
-                : 0;
-            
-            messages.push(newMessage);
-            
-            fs.writeFile(filePath, JSON.stringify(messages, null, 4), (writeErr) => {
-                if (writeErr) {
-                    console.error('Error writing to Chat.json:', writeErr);
-                    return res.status(500).json({ error: 'Failed to save message' });
-                }
-                
-                console.log('Message saved successfully:', newMessage);
-                res.json({ success: true, message: newMessage });
-            });
-        } catch (parseErr) {
-            console.error('Error parsing JSON:', parseErr);
-            res.status(500).json({ error: 'Invalid JSON data' });
-        }
-    });
-});
-
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Chat server running on http://0.0.0.0:${PORT}`);
-    console.log('Live reload enabled - server will restart on file changes');
+// ✅ Start server
+app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT}`);
 });
