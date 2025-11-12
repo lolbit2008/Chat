@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -16,7 +15,6 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("✅ Connected to MongoDB"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// ✅ Define Message Schema
 const messageSchema = new mongoose.Schema({
     User: String,
     userID: String,
@@ -26,12 +24,11 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model("Message", messageSchema);
 
-// ✅ Routes
+
 app.get('/', (req, res) => {
     res.send("Chat server is running");
 });
 
-// ✅ Fetch all messages
 app.get('/api/messages', async (req, res) => {
     try {
         const messages = await Message.find().sort({ MessageId: 1 });
@@ -41,7 +38,6 @@ app.get('/api/messages', async (req, res) => {
     }
 });
 
-// ✅ Save a new message
 app.post('/api/messages', async (req, res) => {
     try {
         const count = await Message.countDocuments();
@@ -59,7 +55,6 @@ app.post('/api/messages', async (req, res) => {
     }
 });
 
-// ✅ Start server
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
 });
